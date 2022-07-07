@@ -2,12 +2,15 @@ const express = require('express');
 const mysql = require('mysql2');
 const app = express();
 
+require('dotenv').config()
+const DB_PASSWORD = process.env.DB_PASSWORD;
+
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Amwmrwcjwclaw!2',
-  database: 'missionx'
-})
+  password: DB_PASSWORD,
+  database: 'missionx',
+});
 
 app.get('/', (req, res) => {
     console.log('Received GET request to /');
