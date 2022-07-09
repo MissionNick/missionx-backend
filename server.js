@@ -1,28 +1,39 @@
 const express = require('express');
-const mysql = require('mysql2');
+const { connect } = require('./db');
+
+require('dotenv').config();
+
+const port = process.env.REACT_APP_PORT;
+
+
+
+// Routes
+const projectRouter = require('./routes/project.routes');
+
 const app = express();
 
-require('dotenv').config()
-const DB_PASSWORD = process.env.DB_PASSWORD;
+app.use(express.json());
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: DB_PASSWORD,
-  database: 'missionx',
+app.use('/api/Project', projectRouter);
+//app.use('/api/user/:ID', userRouter);
+//app.use('/api/Student:ID', StudentRouter);
+//app.use('/api/Teacher:ID', TeacherRouter);
+
+
+app.all('*', (req, res, next) => {
+  const err = new HttpException(404, `Endpoint ${req.url} Not Found`);
+  next(err);
 });
 
-app.get('/', (req, res) => {
-    console.log('Received GET request to /');
-    connection.query(`SELECT * FROM project LIMIT 2;`, (error, result) => {
-        if (error) {
-            console.log('Error', error);
-            res.send("You' got an error ! " + error.code);
-        } else {
-            console.log(result);
-            res.send(result);
-        }
-    });
-});
-console.log('Server running at port', 4001);
-app.listen(4001);
+
+
+const startServer = async () => {
+  try {
+    await connect();
+    app.listen(port, () => console.log(`Server running on port ${port}!`));
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+startServer();
