@@ -1,4 +1,14 @@
-1.Set default schema- MissionX (TODO Create schema script to automate)
-2.Drop all existing tables (TODO - Drop tables Script to automate)
-3.Run missionxCreateTables to create tables and relationships. (From mySQL workbench is mysql cmd is not installed)
-4.Run missionXTestData to create test data. (TODO)
+
+Test Database Setup
+
+1.Set default schema- MissionX
+2.Run the following scripts in this order (TO DO Will setup a shell script to automate)
+- sqlscripts\missionxDropTables
+- sqlscripts\missionxCreateTables
+- sqlscripts\missionXInsertStatic
+- sqlscripts\missionXInsertTestData
+
+The images have been uploaded using my FileStack API key. 
+The images I used are in this folder - projectdata. 
+
+
