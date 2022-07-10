@@ -9,13 +9,9 @@
   "author": "Nick Wilson",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "filestack-react-18": "^4.0.3",
-=======
-    "express": "^4.18.1",
->>>>>>> Development
     "mysql2": "^2.3.3"
   }
 }
