@@ -6,6 +6,7 @@ const { port } = require("./config/index");
 
 // Middleware
 const { connect } = require("./db");
+const { errorHandler } = require("./middlewares/index");
 
 // Routers to be used
 const { studentsRouter } = require("./routes/students.routes");
@@ -18,6 +19,8 @@ app.all("*", (req, res, next) => {
   const err = new HttpException(404, `Endpoint ${req.url} Not Found`);
   next(err);
 });
+
+app.use(errorHandler);
 
 const startServer = async () => {
   try {
