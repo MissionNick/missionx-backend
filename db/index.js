@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const mysql = require('mysql2/promise')
 
 require('dotenv').config();
@@ -15,4 +16,19 @@ const connect = async () => {
 };
 
 
+=======
+const mysql = require("mysql2");
+const { config } = require("../config/db.config");
+
+let isConnected = false;
+
+const connect = async () => {
+  const connectConfig = {
+    ...config,
+  };
+  mysql.createConnection(connectConfig);
+  isConnected = true;
+};
+
+>>>>>>> Development
 module.exports = { connect };
