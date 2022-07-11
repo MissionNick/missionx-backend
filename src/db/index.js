@@ -1,14 +1,12 @@
 const mysql = require("mysql2");
 const { config } = require("../config/db.config");
 
-let isConnected = false;
 
-const connect = async () => {
+const connect = async (connection) => {
   const connectConfig = {
     ...config,
   };
-  mysql.createConnection(connectConfig);
-  isConnected = true;
-};
+  connection = await mysql.createConnection(connectConfig);
+  };
 
 module.exports = { connect };
