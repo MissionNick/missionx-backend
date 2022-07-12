@@ -7,6 +7,7 @@ Test Database Setup
 - sqlscripts\missionxCreateTables
 - sqlscripts\missionXInsertStatic
 - sqlscripts\missionXInsertTestData
+- sqlscripts\missionxProjectView
 
 The images have been uploaded using my FileStack API key. 
 The images I used are in this folder - projectdata. 

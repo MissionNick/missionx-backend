@@ -4,3 +4,7 @@ DROP TABLE `missionx`.`project`;
 DROP TABLE `missionx`.`student`;
 DROP TABLE `missionx`.`teacher`;
 DROP TABLE `missionx`.`yearlevel`;
+DROP TABLE `missionx`.`course`;
+DROP TABLE `missionx`.`subjectmatter`;
+DROP TABLE `missionx`.`subscription`;
+DROP TABLE `missionx`.`activitytype`;

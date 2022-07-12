@@ -17,7 +17,7 @@ Create TABLE Project (
 Create TABLE Teacher (
   TeacherID int NOT NULL AUTO_INCREMENT,
   Name varchar(100),
-  Email varchar(100),
+  Email varchar(100) UNIQUE,
   Password varchar(20),
   School varchar(100),
   ProfilePic varchar(200),
@@ -30,7 +30,7 @@ Create TABLE Student (
 	StudentID int NOT NULL AUTO_INCREMENT,
     TeacherID int,
 	Name varchar(100),
-	Email varchar(100),
+	Email varchar(100) UNIQUE,
 	Password varchar(20),
 	School varchar(100),
 	ProfilePic varchar(200),
@@ -59,10 +59,10 @@ Create TABLE HelpRequest (
 Create TABLE ProgressHistory (
   StudentID int,
   ProjectID int,
-  DateStarted date,
+  DateStarted date DEFAULT (CURRENT_DATE),
   DateSubmitted date,
   DateCompleted date,
-  Submission VARCHAR(512) CHARACTER SET 'ascii' COLLATE 'ascii_general_ci' NOT NULL,
+  Submission VARCHAR(512) CHARACTER SET 'ascii' COLLATE 'ascii_general_ci',
   
   FOREIGN KEY(StudentID) 
         REFERENCES Student(StudentID)
