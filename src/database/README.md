@@ -2,13 +2,16 @@
 Test Database Setup
 
 1.Set default schema- MissionX
-2.Run the following scripts in this order (TO DO Will setup a shell script to automate)
+2.Execute initialiseMissionxDatabase.sql 
+(Combines these scripts)
 - sqlscripts\missionxDropTables
 - sqlscripts\missionxCreateTables
+- sqlscripts\missionxCreateViews
 - sqlscripts\missionXInsertStatic
 - sqlscripts\missionXInsertTestData
+- sqlscripts\missionxProjectdata
 
-The images have been uploaded using my FileStack API key. 
-The images I used are in this folder - projectdata. 
+Project Images are sourced/urls to the i0.wp content site.
+Student Images are published and sourced from Filestack. - usertestdata\images
 
 

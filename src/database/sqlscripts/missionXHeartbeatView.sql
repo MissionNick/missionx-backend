@@ -1,0 +1,15 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `heartbeat_vw` AS
+    SELECT 
+        NOW() AS `DB_PING`,
+        CONNECTION_ID() AS `CONNECTION_ID`,
+        LAST_INSERT_ID() AS `LAST_INSERT_ID`,
+        DATABASE() AS `DB_NAME`,
+        CURRENT_USER() AS `USER`,
+        VERSION() AS `DB_VERSION`,
+        USER() AS `USER()`,
+        ICU_VERSION() AS `REGEX_VERSION`,
+        BENCHMARK(1000000, AES_ENCRYPT('hello', 'goodbye')) AS `BENCHMARK_AES`

@@ -1,3 +1,8 @@
-REACT_APP_DB_PASSWORD = 'MissionX database password'
-REACT_APP_FILESTACK_API_KEY = 'API KEY'
-REACT_APP_PORT = 'Server port - 4000'
+MYSQL_CON_LIMIT = '10'
+MYSQL_Q_LIMIT ='0'
+MYSQL_HOST = 'localhost'
+MYSQL_USER = 'root'
+MYSQL_PASS = 'password'
+MYSQL_DATABASE = 'missionx'
+PROJECT_LIST_PER_PAGE = 5
+FILESTACK_API_KEY = 'your key'

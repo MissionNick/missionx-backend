@@ -1,23 +1,27 @@
-//const { Router } = require('express');
-/*const express = require('express');
-const projectRouter = express.Router(); 
-const { get , testRouter } = require('../controllers/projects.controller')
+const router = require('express').Router();
+const { getStudentProjects, getAll,testRouter,getAllPaged } = require('../controllers/projects.controller');
+
+
+router.use((req, res, next) => {
+  console.log('Time: ', Date.now())
+  next()
+})
 
 
 
-projectRouter.get('/', get);
-projectRouter.get('/test', testRouter);
+router.post('/teacher', getAll);
 
-*/
-const express = require("express");
-const projectsRouter = express.Router();
-const { get , testRouter } = require('../controllers/projects.controller')
+router.post('/test', testRouter);
 
-projectsRouter.get("/",get);
-projectsRouter.get("/test", testRouter);
+router.post('/student', getStudentProjects);
+
+router.post('/', getAllPaged);
+
+//router.get('/':studentId,getStudentProjects)
+//router.get('/':id,getOne)
+
+// PATCH /api/project + /
+// router.patch('/', update);
 
 
-
-module.exports = {
-  projectsRouter,
-};
+module.exports = router;

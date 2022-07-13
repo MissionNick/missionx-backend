@@ -1,8 +1,52 @@
-Select * from project
+/* Static Project Data Inserts - Filter types */
+
+INSERT INTO `ActivityType`
+(`Activity`,`Description`)
+VALUES
+('Animation', NULL),
+('Game', NULL),
+('Chatbot', NULL),
+('Augmented Reality', NULL);
 
 
-INSERT INTO Project(Name, ProjectPic, LearningObject, Instructions, Video, ActivityType, YearLevel, Course, Subscription, SubjectMatter)
- VALUES("https://cdn.filestackcontent.com/4ZhXzz6yTIycJDnyyWCs","","","Animation","yearlevel":1,"subscription":1,"subjectmatter":1,"Introduction","level":"BEGINNER","type":},
-),
-       (1, 102,'2021/01/02'),
-       (2, 103,'2021/01/01');
+INSERT INTO `Course`
+(`Course`,`Description`)
+VALUES
+('Beginner', NULL),
+('Intermediate', NULL),
+('Advanced', NULL);
+
+INSERT INTO `Subjectmatter`
+(`Subject`,`Description`)
+VALUES
+('Computer science,', NULL),
+( 'Maths', NULL),
+( 'Science', NULL),
+( 'Language', NULL),
+('Art', NULL),
+('Music', NULL);
+
+INSERT INTO `Subscription`
+(`Subscription`)
+VALUES
+('Free'),
+('Premium');
+
+INSERT INTO `YearLevel`
+(`YearRange`)
+VALUES
+('1-4'),
+('5-6'),
+('7-8'),
+('9-13');
+
+
+
+
+
+
+
+
+
+
+
