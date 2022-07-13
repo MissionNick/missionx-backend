@@ -1,16 +1,22 @@
 const router = require('express').Router();
-const { get, testRouter,post } = require('../controllers/projects.controller');
+const { getStudentProjects, getAll,testRouter,getAllPaged } = require('../controllers/projects.controller');
+
 
 router.use((req, res, next) => {
   console.log('Time: ', Date.now())
   next()
 })
 
-router.get('/', get);
 
-router.get('/test', testRouter);
 
-router.post('/', post);
+router.post('/teacher', getAll);
+
+router.post('/test', testRouter);
+
+router.post('/student', getStudentProjects);
+
+router.post('/', getAllPaged);
+
 //router.get('/':studentId,getStudentProjects)
 //router.get('/':id,getOne)
 

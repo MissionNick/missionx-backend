@@ -1,23 +1,23 @@
+/* Static Project Data Inserts - Filter types */
+
 INSERT INTO `ActivityType`
-(`Activity`,
-`Description`)
+(`Activity`,`Description`)
 VALUES
 ('Animation', NULL),
 ('Game', NULL),
 ('Chatbot', NULL),
 ('Augmented Reality', NULL);
 
+
 INSERT INTO `Course`
-(`Course`,
-`Description`)
+(`Course`,`Description`)
 VALUES
 ('Beginner', NULL),
 ('Intermediate', NULL),
 ('Advanced', NULL);
 
 INSERT INTO `Subjectmatter`
-(`Subject`,
-`Description`)
+(`Subject`,`Description`)
 VALUES
 ('Computer science,', NULL),
 ( 'Maths', NULL),
@@ -26,7 +26,7 @@ VALUES
 ('Art', NULL),
 ('Music', NULL);
 
-INSERT INTO `subscription`
+INSERT INTO `Subscription`
 (`Subscription`)
 VALUES
 ('Free'),
@@ -39,7 +39,6 @@ VALUES
 ('5-6'),
 ('7-8'),
 ('9-13');
-
 
 
 

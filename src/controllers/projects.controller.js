@@ -1,34 +1,34 @@
 const express = require('express');
 const app = express();
 const connection = require('../db/db')
+const helper = require('../utils/helper');
 
+// TO DO require('../utils/heartbeat')
+const testRouter = async (req, res) => {
 
-const testRouter = (_req, _res) => {
-    console.log('Received GET api/projects/test on teacher controller');
-    res.send('Received GET api/projects/test on teacher controller');
+    const t = Date.now();       
+    try {
+        const [rows] = await connection.query(`SELECT * FROM heartbeat_vw;`);
+        console.log(rows, new Date().toISOString());
+        const responseTime = Date.now() - t;
+        rows.push(`Response time:${responseTime}`);
+        console.log(rows,`Heart beat response time  ${responseTime}`);//the time needed to do the request 
+        res.send(rows);
+    } catch (error) {
+        console.log('Error', error);
+        res.send("Heartbeat failed! " + error.code);
+    }   
 };
 
-
-const getOld = async (req, res) => {
-    const { student } = req.body;
-    console.log('Received a GET request to api/projects/ for studentId ',student);
-    try {
-        const data = (await connection).query(
-            `SELECT * FROM PROJECT LIMIT 2;`
-        )
-        res.send(data);
-    } catch (err) {
-        res.send(`Error ${JSON.stringify(err)}`);
-    }
-}
-const get = async (req, res) => {
-    const { student } = req.body;
-    console.log('Received a GET request to api/projects/ for studentId ', student);
+const getStudentProjects = async (req, res) => {
+    const { studentid } = req.body;
+    console.log('Received a GET request to api/projects/student for studentId ', studentid);
+    
     try {
         const [rows] = await connection.query
-            (`SELECT * FROM studentprojects WHERE studentid = ?;`,
-            [student]);
-        console.log(rows, new Date().toISOString());
+            (`SELECT * FROM student_projects_filter_vw WHERE studentid = '1'`);
+            
+        console.log(rows[0], new Date().toISOString());
         res.send(rows);
     } catch (error) {
         console.log('Error', error);
@@ -36,23 +36,39 @@ const get = async (req, res) => {
     }
 }
 
-const post = async (req, res) => {
-    const { student } = req.body;
-    console.log('Received a Post request to api/projects/ for studentId ',student);
+
+const getAllPaged = async (req, res) => {
+    const { page } = req.body;
+    const listPerPage = parseInt(process.env.PROJECT_LIST_PER_PAGE);
+    const offset = helper.getOffset(page,listPerPage);
+    console.log('Received a GET request to api/projects/page all projects paged ',offset ,listPerPage);
+   
     try {
-        const data = (await connection).query(
-            `SELECT * FROM PROJECT LIMIT 2;`
-        )
-        res.send(data);
-    } catch (err) {
-        res.send(`Error ${JSON.stringify(err)}`);
+        const [rows] = await connection.query
+            (`SELECT * FROM projects_filter_vw LIMIT ?,?`,[offset,5]);
+        console.log(rows[0], new Date().toISOString());
+        res.send(rows);
+    } catch (error) {
+        console.log('Error', error);
+        res.send("You' got an error ! " + error.code);
     }
 }
 
+const getAll = async (req, res) => {
+    
+    console.log('Received a GET request to api/projects/ for teacher - all projects');
+   
+    try {
+        const [rows] = await connection.query
+            ('SELECT * FROM projects_filter_vw');
+        console.log(rows[0], new Date().toISOString());
+        res.send(rows);
+    } catch (error) {
+        console.log('Error', error);
+        res.send("You' got an error ! " + error.code);
+    }
+}
 
     
-    
 
-
-
-module.exports = { get, testRouter, post };
+module.exports = { getStudentProjects,testRouter,getAllPaged,getAll };

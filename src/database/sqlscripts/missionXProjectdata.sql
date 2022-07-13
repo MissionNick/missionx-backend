@@ -1,3 +1,5 @@
+/* Static Project Data Inserts - Projects content */
+
 INSERT INTO Project (ProjectPic,Name,LearningObject, Instructions, Video, ActivityTypeID, YearLevelID, CourseID, SubscriptionID, SubjectMatterID)
  VALUES
 ('https://i0.wp.com/levelupworks.com.wonderbean.a2hosted.com/levels/wp-content/uploads/2019/09/image-67.png?fit=300%2C227&amp;ssl=1',

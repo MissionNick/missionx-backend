@@ -1,12 +1,6 @@
-INSERT INTO Project(Name, ProjectPic, LearningObject, Instructions, Video, ActivityTypeID, YearLevelID, CourseID, SubscriptionID, SubjectMatterID)
- VALUES(
- 'Project 01 – Introduction',
- 'https://cdn.filestackcontent.com/4ZhXzz6yTIycJDnyyWCs',
- 'Learning Objectives: course introduction, Scratch introduction, basic operations (Build Scratch, Save and Share), get started presenting work', 
- '<h1>HTML Markup providing the project instructions</h1>',
- 'https;//videourl',
- 1,1,1,1,1) ;
+/* Test Data */
  
+
 INSERT INTO TEACHER (Name, Email, Password, School, ProfilePic, DateOfBirth, ContactNumber)
 VALUES(
 'Deadpool',
@@ -48,15 +42,6 @@ VALUES(
 '2001-08-10',
 '55-555-5555',
 '2');
-
-INSERT INTO `helprequest`
-(`StudentID`,
-`DateCreated`,
-`Done`)
-VALUES
-('1',
-'2022-07-23',
-True);
 
 INSERT INTO `progresshistory`
 (`StudentID`,

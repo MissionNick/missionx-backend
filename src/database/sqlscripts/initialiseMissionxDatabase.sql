@@ -1,5 +1,17 @@
 USE `missionx`;
 
+/*  Initialise a MissionX Database (Dev Test)
+	- Drop Existing Tables
+    - Create Tables
+    - Insert Static Application Data
+    - Insert Project Data
+    - Insert Application Test Data. Student, Teacher and Progresshistory
+    
+	Author: Nick Wilson
+*/
+
+/* Drop Tables */
+
 DROP TABLE IF EXISTS `helprequest`;
 DROP TABLE IF EXISTS `progresshistory`;
 DROP TABLE IF EXISTS `project`;
@@ -11,28 +23,28 @@ DROP TABLE IF EXISTS `subjectmatter`;
 DROP TABLE IF EXISTS `subscription`;
 DROP TABLE IF EXISTS `activitytype`;
 
-
+/* Create Tables */
 CREATE TABLE ActivityType (
   ActivityTypeID INT NOT NULL AUTO_INCREMENT,
   Activity VARCHAR(20) NULL,
   Description MEDIUMTEXT NULL,
   PRIMARY KEY (ActivityTypeID)
     )
-COMMENT = 'Table Dev comment here';
+COMMENT = 'Project Activity Types';
 
 CREATE TABLE Yearlevel (
   YearLevelID INT NOT NULL AUTO_INCREMENT,
   YearRange VARCHAR(5) NOT NULL,
   PRIMARY KEY (YearLevelID)
   )
-  COMMENT = 'Table Dev comment here';
+  COMMENT = 'Project content education Year Levels ';
   
   CREATE TABLE Subscription (
 	SubscriptionID INT NOT NULL AUTO_INCREMENT,
 	Subscription VARCHAR(20) NOT NULL,
 	PRIMARY KEY (SubscriptionID)
   )
-  COMMENT = 'Table Dev comment here';
+  COMMENT = 'Student Subscription types';
   
   CREATE TABLE Course (
 	CourseID INT NOT NULL AUTO_INCREMENT,
@@ -40,7 +52,7 @@ CREATE TABLE Yearlevel (
 	Description MEDIUMTEXT NULL,
 	PRIMARY KEY (CourseID)
     )
-    COMMENT = 'Table Dev comment here';
+    COMMENT = 'Course levels';
     
 CREATE TABLE Subjectmatter (
   SubjectMatterID INT NOT NULL AUTO_INCREMENT,
@@ -48,7 +60,7 @@ CREATE TABLE Subjectmatter (
   Description MEDIUMTEXT NULL,
   PRIMARY KEY (SubjectmatterID)
   )
-  COMMENT = 'Table Dev comment here';
+  COMMENT = 'Project subject';
   
 Create TABLE Project (
   ProjectID int NOT NULL AUTO_INCREMENT,
@@ -79,7 +91,7 @@ Create TABLE Project (
         REFERENCES  ActivityType(ActivityTypeID)
         ON DELETE CASCADE
 )
-COMMENT = 'Table Dev comment here';
+COMMENT = 'Project content joined with project meta data. Activity, Subject etc';
 
 Create TABLE Teacher (
   TeacherID int NOT NULL AUTO_INCREMENT,
@@ -91,8 +103,8 @@ Create TABLE Teacher (
   DateOfBirth date,
   ContactNumber varchar(15),
   PRIMARY KEY(TeacherID)
- )
- COMMENT = 'Table Dev comment here';
+ );
+
  
 Create TABLE Student (
 	StudentID int NOT NULL AUTO_INCREMENT,
@@ -110,8 +122,8 @@ Create TABLE Student (
     FOREIGN KEY(TeacherID) 
         REFERENCES Teacher(TeacherID)
         ON DELETE CASCADE
-)
-COMMENT = 'Table Dev comment here';
+);
+
 
 Create TABLE HelpRequest (
 	RequestID int NOT NULL AUTO_INCREMENT,
@@ -123,7 +135,7 @@ Create TABLE HelpRequest (
 		REFERENCES Student(StudentID)
 		ON DELETE CASCADE
 )
-COMMENT = 'Table Dev comment here';
+COMMENT = 'Student help requests';
 
 Create TABLE ProgressHistory (
   StudentID int,
@@ -142,28 +154,135 @@ Create TABLE ProgressHistory (
         ON DELETE CASCADE
   
 )
-COMMENT = 'Table Dev comment here';
+COMMENT = 'Student project progress history';
+
+/* Create Report and Application filter views 
+   - @ TODO Permission access controls to be applied */
+
+CREATE  OR REPLACE VIEW `projects_vw` AS
+    SELECT 
+        ProjectID,
+        Name,
+        ProjectPic,
+        LearningObject,
+        Instructions,
+        Video,
+        Activity,
+        YearRange,
+        Course,
+        Subscription,
+        Subject
+    FROM
+        Project AS p
+            INNER JOIN
+        ActivityType AS a ON a.ActivityTypeID = p.ActivityTypeID
+            INNER JOIN
+        YearLevel AS y ON y.YearLevelID = p.YearLevelID
+            INNER JOIN
+        Course AS c ON c.CourseID = p.CourseID
+            INNER JOIN
+        Subscription AS s ON s.SubscriptionID = p.SubscriptionID
+            INNER JOIN
+        SubjectMatter AS sm ON sm.SubjectMatterID = p.SubjectMatterID;
+        
+        
+CREATE OR REPLACE VIEW `projects_filter_vw` AS
+   ( SELECT 
+        `p`.`ProjectID`,
+        `p`.`Name`,
+        `p`.`ProjectPic`,
+        `p`.`LearningObject`,
+        `p`.`Instructions`,
+        `p`.`Video`,
+        `p`.`ActivityTypeID`, 
+        `pv`.`Activity`,
+        `p`.`YearLevelID`,
+        `pv`.`YearRange`,
+        `p`.`CourseID`,
+        `pv`.`Course`,
+        `p`.`SubscriptionId`,
+        `pv`.`Subscription`,
+        `p`.`SubjectMatterID`,
+        `pv`.`Subject`
+	FROM  `project` AS `p`
+        INNER JOIN `projects_vw` AS `pv` ON `p`.`ProjectID` = `pv`.`ProjectID`
+     )   ;
+        
+CREATE  OR REPLACE VIEW `student_projects_vw` AS
+    (SELECT 
+        `p`.`ProjectID`, 
+        `p`.`Name`, 
+        `p`.`ProjectPic`,
+        `p`.`LearningObject`, 
+        `p`.`Instructions`, 
+        `p`.`Video` ,
+        `p`.`ActivityTypeID`,
+        `p`.`YearLevelID`,
+        `p`.`CourseID`, 
+        `p`.`SubscriptionId`, 
+        `p`.`SubjectMatterID`,
+        `StudentID`
+    FROM  `project` AS `p`
+        INNER JOIN `progresshistory` AS `h` ON `p`.`ProjectID` = `h`.`ProjectID`
+     )   ;
+        
+CREATE OR REPLACE VIEW `student_projects_filter_vw` AS
+   ( SELECT 
+        `p`.`ProjectID`,
+        `p`.`Name`,
+        `p`.`ProjectPic`,
+        `p`.`LearningObject`,
+        `p`.`Instructions`,
+        `p`.`Video`,
+        `p`.`ActivityTypeID`, 
+        `pv`.`Activity`,
+        `p`.`YearLevelID`,
+        `pv`.`YearRange`,
+        `p`.`CourseID`,
+        `pv`.`Course`,
+        `p`.`SubscriptionId`,
+        `pv`.`Subscription`,
+        `p`.`SubjectMatterID`,
+        `pv`.`Subject`,
+        `h`.`StudentID`
+    FROM  `project` AS `p`
+        INNER JOIN `progresshistory` AS `h` ON `p`.`ProjectID` = `h`.`ProjectID`
+        INNER JOIN `projects_vw` AS `pv` ON `p`.`ProjectID` = `pv`.`ProjectID`
+) ;
+
+/* Test Route call */
+
+ SELECT 
+ NOW() AS `DB_PING`,
+ CONNECTION_ID() AS `CONNECTION_ID`,
+ LAST_INSERT_ID() AS `LAST_INSERT_ID`,
+ DATABASE() as DB_NAME, 
+ CURRENT_USER() as USER,
+ VERSION() as DB_VERSION,
+ USER(),
+ ICU_VERSION() as REGEX_VERSION,
+ BENCHMARK(1000000,AES_ENCRYPT('hello','goodbye')) as BENCHMARK_AES;
+
+/* Static Project Data Inserts - Filter types */
 
 INSERT INTO `ActivityType`
-(`Activity`,
-`Description`)
+(`Activity`,`Description`)
 VALUES
 ('Animation', NULL),
 ('Game', NULL),
 ('Chatbot', NULL),
 ('Augmented Reality', NULL);
 
+
 INSERT INTO `Course`
-(`Course`,
-`Description`)
+(`Course`,`Description`)
 VALUES
 ('Beginner', NULL),
 ('Intermediate', NULL),
 ('Advanced', NULL);
 
 INSERT INTO `Subjectmatter`
-(`Subject`,
-`Description`)
+(`Subject`,`Description`)
 VALUES
 ('Computer science,', NULL),
 ( 'Maths', NULL),
@@ -186,7 +305,10 @@ VALUES
 ('7-8'),
 ('9-13');
 
-INSERT INTO Project (ProjectPic,Name,LearningObject, Instructions, Video, ActivityTypeID, YearLevelID, CourseID, SubscriptionID, SubjectMatterID)
+/* Static Project Data Inserts - Projects content */
+
+INSERT INTO Project 
+(ProjectPic,Name,LearningObject, Instructions, Video, ActivityTypeID, YearLevelID, CourseID, SubscriptionID, SubjectMatterID)
  VALUES
 ('https://i0.wp.com/levelupworks.com.wonderbean.a2hosted.com/levels/wp-content/uploads/2019/09/image-67.png?fit=300%2C227&amp;ssl=1',
 'Project 01 – Introduction',
@@ -641,6 +763,9 @@ INSERT INTO Project (ProjectPic,Name,LearningObject, Instructions, Video, Activi
 '<h1>HTML Markup providing the Project instructions</h1>',
 'https://i.vimeocdn.com/video/436649156-57cfbe171abdc7a1cd3641923b13d911fb079996c8e94a2f31473075d7e5f745-d?mw=700&mh=437',
 4,1,1,1,6);
+
+
+/* Test Data */
  
 
 INSERT INTO TEACHER (Name, Email, Password, School, ProfilePic, DateOfBirth, ContactNumber)
@@ -700,33 +825,6 @@ INSERT INTO `missionx`.`progresshistory`
 `ProjectID`)
 VALUES
 (1,3),(1,4),(1,3),(1,10),(1,20),(1,21),(1,22),(1,23),(1,30),(1,31),(1,32),(1,34),(1,35),(1,50),(1,51),
-(2,11),(2,12),(2,13),(2,5),(2,6),(2,34),(2,35),(2,36),(2,37),(2,41),(2,42),(2,59);
+(2,11),(2,12),(2,13),(2,5),(2,6),(2,34),(2,35),(2,36),(2,37),(2,41),(2,42),(2,59)
 
-
-
-CREATE  OR REPLACE VIEW `project_view` AS
-    SELECT 
-        ProjectID,
-        Name,
-        ProjectPic,
-        LearningObject,
-        Instructions,
-        Video,
-        Activity,
-        YearRange,
-        Course,
-        Subscription,
-        Subject
-    FROM
-        Project AS p
-            INNER JOIN
-        ActivityType AS a ON a.ActivityTypeID = p.ActivityTypeID
-            INNER JOIN
-        YearLevel AS y ON y.YearLevelID = p.YearLevelID
-            INNER JOIN
-        Course AS c ON c.CourseID = p.CourseID
-            INNER JOIN
-        Subscription AS s ON s.SubscriptionID = p.SubscriptionID
-            INNER JOIN
-        SubjectMatter AS sm ON sm.SubjectMatterID = p.SubjectMatterID;
 

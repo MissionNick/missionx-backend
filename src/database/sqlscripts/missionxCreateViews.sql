@@ -1,5 +1,7 @@
-USE `missionx`;
-CREATE  OR REPLACE VIEW `project_view` AS
+/* Create Report and Application filter views 
+   - @ TODO Permission access controls to be applied */
+
+CREATE  OR REPLACE VIEW `projects_vw` AS
     SELECT 
         ProjectID,
         Name,
@@ -26,20 +28,79 @@ CREATE  OR REPLACE VIEW `project_view` AS
         SubjectMatter AS sm ON sm.SubjectMatterID = p.SubjectMatterID;
         
         
-CREATE  OR REPLACE VIEW `studentprojects` AS
-    SELECT 
-        `p`.`ProjectID` AS `ProjectID`,
-        `p`.`Name` AS `Name`,
-        `p`.`ProjectPic` AS `ProjectPic`,
-        `p`.`LearningObject` AS `LearningObject`,
-        `p`.`Instructions` AS `Instructions`,
-        `p`.`Video` AS `Video`,
-        `p`.`ActivityTypeID` AS `ActivityTypeID`,
-        `p`.`YearLevelID` AS `YearLevelID`,
-        `p`.`CourseID` AS `CourseID`,
-        `p`.`SubscriptionId` AS `SubscriptionId`,
-        `p`.`SubjectMatterID` AS `SubjectMatterID`,
-        `StudentID` 
-    FROM
-        (`project` `p`
-        JOIN `progresshistory` `h` ON ((`p`.`ProjectID` = `h`.`ProjectID`)))
+CREATE OR REPLACE VIEW `projects_filter_vw` AS
+   ( SELECT 
+        `p`.`ProjectID`,
+        `p`.`Name`,
+        `p`.`ProjectPic`,
+        `p`.`LearningObject`,
+        `p`.`Instructions`,
+        `p`.`Video`,
+        `p`.`ActivityTypeID`, 
+        `pv`.`Activity`,
+        `p`.`YearLevelID`,
+        `pv`.`YearRange`,
+        `p`.`CourseID`,
+        `pv`.`Course`,
+        `p`.`SubscriptionId`,
+        `pv`.`Subscription`,
+        `p`.`SubjectMatterID`,
+        `pv`.`Subject`
+	FROM  `project` AS `p`
+        INNER JOIN `projects_vw` AS `pv` ON `p`.`ProjectID` = `pv`.`ProjectID`
+     )   ;
+        
+CREATE  OR REPLACE VIEW `student_projects_vw` AS
+    (SELECT 
+        `p`.`ProjectID`, 
+        `p`.`Name`, 
+        `p`.`ProjectPic`,
+        `p`.`LearningObject`, 
+        `p`.`Instructions`, 
+        `p`.`Video` ,
+        `p`.`ActivityTypeID`,
+        `p`.`YearLevelID`,
+        `p`.`CourseID`, 
+        `p`.`SubscriptionId`, 
+        `p`.`SubjectMatterID`,
+        `StudentID`
+    FROM  `project` AS `p`
+        INNER JOIN `progresshistory` AS `h` ON `p`.`ProjectID` = `h`.`ProjectID`
+     )   ;
+        
+CREATE OR REPLACE VIEW `student_projects_filter_vw` AS
+   ( SELECT 
+        `p`.`ProjectID`,
+        `p`.`Name`,
+        `p`.`ProjectPic`,
+        `p`.`LearningObject`,
+        `p`.`Instructions`,
+        `p`.`Video`,
+        `p`.`ActivityTypeID`, 
+        `pv`.`Activity`,
+        `p`.`YearLevelID`,
+        `pv`.`YearRange`,
+        `p`.`CourseID`,
+        `pv`.`Course`,
+        `p`.`SubscriptionId`,
+        `pv`.`Subscription`,
+        `p`.`SubjectMatterID`,
+        `pv`.`Subject`,
+        `h`.`StudentID`
+    FROM  `project` AS `p`
+        INNER JOIN `progresshistory` AS `h` ON `p`.`ProjectID` = `h`.`ProjectID`
+        INNER JOIN `projects_vw` AS `pv` ON `p`.`ProjectID` = `pv`.`ProjectID`
+) ;
+
+/* Test Route call */
+
+ SELECT 
+ NOW() AS `DB_PING`,
+ CONNECTION_ID() AS `CONNECTION_ID`,
+ LAST_INSERT_ID() AS `LAST_INSERT_ID`,
+ DATABASE() as DB_NAME, 
+ CURRENT_USER() as USER,
+ VERSION() as DB_VERSION,
+ USER(),
+ ICU_VERSION() as REGEX_VERSION,
+ BENCHMARK(1000000,AES_ENCRYPT('hello','goodbye')) as BENCHMARK_AES;
