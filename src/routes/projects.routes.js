@@ -17,11 +17,6 @@ router.post('/student', getStudentProjects);
 
 router.post('/', getAllPaged);
 
-//router.get('/':studentId,getStudentProjects)
-//router.get('/':id,getOne)
-
-// PATCH /api/project + /
-// router.patch('/', update);
 
 
 module.exports = router;
