@@ -14,6 +14,8 @@ const {errorHandler} = require("./src/middlewares");
 // Routers to be used
 const { studentsRouter } = require("./src/routes/students.routes");
 const projectsRouter = require("./src/routes/projects.routes");
+const testRouter = require("./src/routes/test.routes");
+const profileRouter = require("./src/routes/profile.routes");
 
 
 const app = express();
@@ -26,6 +28,10 @@ app.use(express.json())
 
 app.use("/api/students", studentsRouter);
 app.use("/api/projects", projectsRouter);
+app.use("/api/profile", profileRouter)
+
+
+app.use('/api/test', testRouter);
 
 // 404 error
 app.all("*", (req, res, next) => {
