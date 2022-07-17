@@ -159,6 +159,9 @@ COMMENT = 'Student project progress history';
 /* Create Report and Application filter views 
    - @ TODO Permission access controls to be applied */
 
+/* Create Report and Application filter views 
+   - @ TODO Permission access controls to be applied */
+
 CREATE  OR REPLACE VIEW `projects_vw` AS
     SELECT 
         ProjectID,
@@ -206,6 +209,7 @@ CREATE OR REPLACE VIEW `projects_filter_vw` AS
         `pv`.`Subject`
 	FROM  `project` AS `p`
         INNER JOIN `projects_vw` AS `pv` ON `p`.`ProjectID` = `pv`.`ProjectID`
+	ORDER BY ProjectID
      )   ;
         
 CREATE  OR REPLACE VIEW `student_projects_vw` AS
@@ -224,6 +228,7 @@ CREATE  OR REPLACE VIEW `student_projects_vw` AS
         `StudentID`
     FROM  `project` AS `p`
         INNER JOIN `progresshistory` AS `h` ON `p`.`ProjectID` = `h`.`ProjectID`
+	ORDER BY ProjectID
      )   ;
         
 CREATE OR REPLACE VIEW `student_projects_filter_vw` AS
@@ -248,11 +253,14 @@ CREATE OR REPLACE VIEW `student_projects_filter_vw` AS
     FROM  `project` AS `p`
         INNER JOIN `progresshistory` AS `h` ON `p`.`ProjectID` = `h`.`ProjectID`
         INNER JOIN `projects_vw` AS `pv` ON `p`.`ProjectID` = `pv`.`ProjectID`
+	ORDER BY ProjectID
 ) ;
 
 /* Test Route call */
 
- SELECT 
+CREATE OR REPLACE VIEW `heartbeat_vw` AS
+
+ (SELECT 
  NOW() AS `DB_PING`,
  CONNECTION_ID() AS `CONNECTION_ID`,
  LAST_INSERT_ID() AS `LAST_INSERT_ID`,
@@ -261,8 +269,9 @@ CREATE OR REPLACE VIEW `student_projects_filter_vw` AS
  VERSION() as DB_VERSION,
  USER(),
  ICU_VERSION() as REGEX_VERSION,
- BENCHMARK(1000000,AES_ENCRYPT('hello','goodbye')) as BENCHMARK_AES;
-
+ BENCHMARK(1000000,AES_ENCRYPT('hello','goodbye')) as BENCHMARK_AES
+ );
+ 
 /* Static Project Data Inserts - Filter types */
 
 INSERT INTO `ActivityType`
@@ -311,7 +320,7 @@ INSERT INTO Project
 (ProjectPic,Name,LearningObject, Instructions, Video, ActivityTypeID, YearLevelID, CourseID, SubscriptionID, SubjectMatterID)
  VALUES
 ('https://i0.wp.com/levelupworks.com.wonderbean.a2hosted.com/levels/wp-content/uploads/2019/09/image-67.png?fit=300%2C227&amp;ssl=1',
-'Project 01 – Introduction',
+'<b>Project 01</b> – Introduction',
 'Learning Objectives: course introduction, Scratch introduction,basic ...',
 '<h1>HTML Markup providing the Project instructions</h1>',
 'https://i.vimeocdn.com/video/436649156-57cfbe171abdc7a1cd3641923b13d911fb079996c8e94a2f31473075d7e5f745-d?mw=700&mh=437',

@@ -48,6 +48,7 @@ CREATE OR REPLACE VIEW `projects_filter_vw` AS
         `pv`.`Subject`
 	FROM  `project` AS `p`
         INNER JOIN `projects_vw` AS `pv` ON `p`.`ProjectID` = `pv`.`ProjectID`
+	ORDER BY ProjectID
      )   ;
         
 CREATE  OR REPLACE VIEW `student_projects_vw` AS
@@ -66,6 +67,7 @@ CREATE  OR REPLACE VIEW `student_projects_vw` AS
         `StudentID`
     FROM  `project` AS `p`
         INNER JOIN `progresshistory` AS `h` ON `p`.`ProjectID` = `h`.`ProjectID`
+	ORDER BY ProjectID
      )   ;
         
 CREATE OR REPLACE VIEW `student_projects_filter_vw` AS
@@ -90,11 +92,14 @@ CREATE OR REPLACE VIEW `student_projects_filter_vw` AS
     FROM  `project` AS `p`
         INNER JOIN `progresshistory` AS `h` ON `p`.`ProjectID` = `h`.`ProjectID`
         INNER JOIN `projects_vw` AS `pv` ON `p`.`ProjectID` = `pv`.`ProjectID`
+	ORDER BY ProjectID
 ) ;
 
 /* Test Route call */
 
- SELECT 
+CREATE OR REPLACE VIEW `heartbeat_vw` AS
+
+ (SELECT 
  NOW() AS `DB_PING`,
  CONNECTION_ID() AS `CONNECTION_ID`,
  LAST_INSERT_ID() AS `LAST_INSERT_ID`,
@@ -103,4 +108,5 @@ CREATE OR REPLACE VIEW `student_projects_filter_vw` AS
  VERSION() as DB_VERSION,
  USER(),
  ICU_VERSION() as REGEX_VERSION,
- BENCHMARK(1000000,AES_ENCRYPT('hello','goodbye')) as BENCHMARK_AES;
+ BENCHMARK(1000000,AES_ENCRYPT('hello','goodbye')) as BENCHMARK_AES
+ );

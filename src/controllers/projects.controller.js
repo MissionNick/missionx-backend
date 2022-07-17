@@ -21,12 +21,12 @@ const testRouter = async (req, res) => {
 };
 
 const getStudentProjects = async (req, res) => {
-    const { studentid } = req.body;
-    console.log('Received a GET request to api/projects/student for studentId ', studentid);
+    const { student_id } = req.body;
+    console.log('Received a GET request to api/projects/student for student_id ', student_id);
     
     try {
         const [rows] = await connection.query
-            (`SELECT * FROM student_projects_filter_vw WHERE studentid = '1'`);
+            (`SELECT * FROM student_projects_filter_vw WHERE student_id = '1'`);
             
         console.log(rows[0], new Date().toISOString());
         res.send(rows);
