@@ -90,8 +90,8 @@ Create TABLE Student (
 	School varchar(100),
 	ProfilePic varchar(200),
 	DateOfBirth date,
-	ContactNumber varchar(15),
-	Course varchar(20),
+	contactNumber varchar(15),
+	course varchar(20),
 	PRIMARY KEY (StudentID),
 	
     FOREIGN KEY(TeacherID) 

@@ -8,7 +8,7 @@ const getStudentProfile = async (req, res) => {
     
     try {
         const [rows] = await connection.query
-            (`SELECT * FROM student WHERE student_id =  ${student_id}`);
+            (`SELECT * FROM student_profile_vw WHERE student_id =  ${student_id}`);
             
         console.log(rows[0], new Date().toISOString());
         res.send(rows);
@@ -25,7 +25,7 @@ const getTeacherProfile = async (req, res) => {
     
     try {
         const [rows] = await connection.query
-            (`SELECT * FROM teacher WHERE teacher_id = ${teacher_id}`);
+            (`SELECT * FROM teacher_profile_vw WHERE teacher_id = ${teacher_id}`);
             
         console.log(rows[0], new Date().toISOString());
         res.send(rows);

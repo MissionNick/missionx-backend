@@ -1,6 +1,13 @@
 /* Create Report and Application filter views 
    - @ TODO Permission access controls to be applied */
 
+CREATE OR REPLACE VIEW `teacher_profile_vw` AS
+(SELECT
+teacher_id, name, email, password, school, profilepic, date_of_birth, contact_number
+
+FROM teacher);
+
+
 CREATE  OR REPLACE VIEW `projects_vw` AS
     SELECT 
         ProjectID,
@@ -28,6 +35,17 @@ CREATE  OR REPLACE VIEW `projects_vw` AS
         SubjectMatter AS sm ON sm.SubjectMatterID = p.SubjectMatterID;
         
         
+CREATE OR REPLACE VIEW `student_profile_vw` AS
+(SELECT
+student_id, s.teacher_id, s.name, s.email, s.password, s.school, s.profilepic, s.date_of_birth, s.contact_number, s.course_id,
+c.course as course, t.name as teacher_name
+
+FROM student as s
+
+INNER JOIN `course` AS `c` ON `s`.`course_id` = `c`.`id`
+INNER JOIN `teacher` AS `t` ON `s`.`teacher_id` = `t`.`teacher_id`);
+
+
 CREATE OR REPLACE VIEW `projects_filter_vw` AS
    ( SELECT 
         `p`.`ProjectID`,
