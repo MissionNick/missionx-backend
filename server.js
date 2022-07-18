@@ -1,26 +1,21 @@
 require("dotenv").config();
 
 const express = require("express");
-const cors = require('cors');
+const cors = require("cors");
 const { port } = require("./src/config");
-
-
 
 // Middleware
 
-const {errorHandler} = require("./src/middlewares");
-
+const { errorHandler } = require("./src/middlewares");
 
 // Routers to be used
 const { studentsRouter } = require("./src/routes/students.routes");
 const projectsRouter = require("./src/routes/projects.routes");
 
-
 const app = express();
 
 app.use(cors());
-app.use(express.json())
-
+app.use(express.json());
 
 // Register Routers
 
@@ -35,7 +30,6 @@ app.all("*", (req, res, next) => {
 
 app.use(errorHandler);
 
-
 const startServer = async () => {
   try {
     app.listen(port, () => console.log(`Server running on port ${port}`));
@@ -45,4 +39,3 @@ const startServer = async () => {
 };
 
 startServer();
-

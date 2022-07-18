@@ -1,9 +1,12 @@
 const express = require("express");
+const {
+  getAllProfiles,
+  getAllProgress,
+} = require("../controllers/students.controller");
 const studentsRouter = express.Router();
 
-studentsRouter.get("/", (req, res) => {
-  res.send("Hello GET! on students router");
-});
+studentsRouter.get("/", getAllProfiles);
+studentsRouter.get("/progress", getAllProgress);
 
 module.exports = {
   studentsRouter,
