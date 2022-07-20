@@ -1,26 +1,22 @@
 require("dotenv").config();
 const connection = require("./src/db/db");
 const express = require("express");
-const cors = require('cors');
+const cors = require("cors");
 const { port } = require("./src/config");
 
-const session = require('express-session');
-const MySQLStore = require('express-mysql-session')(session);
-
+const session = require("express-session");
+const MySQLStore = require("express-mysql-session")(session);
 
 // Middleware
 
-const {errorHandler} = require("./src/middlewares");
-
+const { errorHandler } = require("./src/middlewares");
 
 // Routers to be used
 const { studentsRouter } = require("./src/routes/students.routes");
 const projectsRouter = require("./src/routes/projects.routes");
 const testRouter = require("./src/routes/test.routes");
 const profileRouter = require("./src/routes/profile.routes");
-const {userRouter} = require('./src/routes/user.routes')
-
-
+const { userRouter } = require("./src/routes/user.routes");
 
 const app = express();
 
@@ -30,7 +26,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json())
+app.use(express.json());
 
 //Session Initialisation
 
@@ -52,10 +48,9 @@ app.use(
 
 app.use("/api/students", studentsRouter);
 app.use("/api/projects", projectsRouter);
-app.use("/api/profile", profileRouter)
-app.use('/api/test', testRouter);
+app.use("/api/profile", profileRouter);
+app.use("/api/test", testRouter);
 app.use(userRouter);
-
 
 // 404 error
 app.all("*", (req, res, next) => {
@@ -64,7 +59,6 @@ app.all("*", (req, res, next) => {
 });
 
 app.use(errorHandler);
-
 
 const startServer = async () => {
   try {
@@ -75,4 +69,3 @@ const startServer = async () => {
 };
 
 startServer();
-
