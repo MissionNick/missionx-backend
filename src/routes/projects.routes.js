@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const { getStudentProjects, getAll,testRouter,getAllPaged } = require('../controllers/projects.controller');
-
+const { getStudentProjects, getAll,getAllPaged } = require('../controllers/projects.controller');
 
 router.use((req, res, next) => {
   console.log('Time: ', Date.now())
@@ -8,15 +7,8 @@ router.use((req, res, next) => {
 })
 
 
-
 router.post('/teacher', getAll);
-
-router.post('/test', testRouter);
-
 router.post('/student', getStudentProjects);
-
 router.post('/', getAllPaged);
-
-
 
 module.exports = router;
