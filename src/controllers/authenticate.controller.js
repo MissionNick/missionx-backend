@@ -3,8 +3,8 @@ const connection = require("../db/db");
 const authenticate = async (req, res) => {
     try {
         if (req.session.userID) {
-            console.log('UserID Exists');
-            console.log('User ID: ',req.session.userID, 'USerTYPE: ',req.session.userType);
+            // console.log('UserID Exists');
+            // console.log('User ID: ',req.session.userID, 'USerTYPE: ',req.session.userType);
             user = {
                 id: req.session.userID,
                 type: req.session.userType,
@@ -20,12 +20,12 @@ const authenticate = async (req, res) => {
                 res.send(user);
             }
         } else {
-            console.log("UserID Not Exists");
+            // console.log("UserID Not Exists");
             res.send("Failed");
         }
     }
     catch (error) {
-        console.log(error);
+        // console.log(error);
         res.send("Failed");
      }
 };
