@@ -29,9 +29,7 @@ const loginStudent = async (req, res) => {
     }
   } catch (error) {
     // console.log(`Error creating the user. ${JSON.stringify(error?.message)}`);
-    res
-      .status(400)
-      .send(`Error logging in to the user. ${JSON.stringify(error?.message)}`);
+    res.status(400).send("Login Failed");
   }
 };
 
@@ -62,9 +60,7 @@ const loginTeacher = async (req, res) => {
     }
   } catch (error) {
     // console.log(`Error creating the user. ${JSON.stringify(error?.message)}`);
-    res
-      .status(400)
-      .send(`Error logging in to the user. ${JSON.stringify(error?.message)}`);
+    res.status(400).send("Login Failed");
   }
 };
 
