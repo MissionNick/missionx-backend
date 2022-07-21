@@ -16,14 +16,12 @@ const teachSignup = async (req, res) => {
       );
         const userID = result[0].insertId;
         req.session.userID = userID;
-        req.session.userType = "Teacher";
+        req.session.userType = "teacher";
       // console.log(`Signed up teacher with id of ${userID}`);
       res.send(`Signed up teacher with id of ${userID}`);
     } catch (error) {
       // console.log(`Error creating the user. ${JSON.stringify(error?.message)}`);
-      res
-        .status(400)
-        .send(`Error creating the user. ${JSON.stringify(error?.message)}`);
+      res.status(400).send(`${JSON.stringify(error?.message)}`);
     }
   } else {
     res.status(400).send("Passwords don't match");
@@ -37,7 +35,7 @@ const studentSignup = async (req, res) => {
       const hashedPass = bcrypt.hashSync(password, 10);
       const connect = await connection.getConnection();
       const result = await connect.query(
-        `insert into missio20_team4.student (TeacherID, Name, Email, Password) Values (1,?,?,?)`,
+        `insert into missio20_team4.student (teacher_id, Name, Email, Password) Values (1,?,?,?)`,
         [name, email, hashedPass],
         (result) => {
           return result;
@@ -46,14 +44,14 @@ const studentSignup = async (req, res) => {
       // console.log(result);
         const userID = result[0].insertId;
         req.session.userID = userID;
-        req.session.userType = "Student";
+        req.session.userType = "student";
       // console.log(`Signed up student with id of ${userID}`);
       res.send(`Signed up student with id of ${userID}`);
     } catch (error) {
       // console.log(`Error creating the user. ${JSON.stringify(error?.message)}`);
       res
         .status(400)
-        .send(`Error creating the user. ${JSON.stringify(error?.message)}`);
+        .send(`${JSON.stringify(error?.message)}`);
     }
   } else {
     res.status(400).send("Passwords don't match");

@@ -19,7 +19,7 @@ const loginStudent = async (req, res) => {
     if (check) {
       // console.log("Login Successfull");
         req.session.userID = row[0].student_id;
-        req.session.userType = "Student";
+        req.session.userType = "student";
       res.send(
         `Login Successful, Student with ID ${row[0].student_id}. Stored in session as ${req.session.userID}`
       );
@@ -29,9 +29,7 @@ const loginStudent = async (req, res) => {
     }
   } catch (error) {
     // console.log(`Error creating the user. ${JSON.stringify(error?.message)}`);
-    res
-      .status(400)
-      .send(`Error logging in to the user. ${JSON.stringify(error?.message)}`);
+    res.status(400).send("Login Failed");
   }
 };
 
@@ -52,7 +50,7 @@ const loginTeacher = async (req, res) => {
     if (check) {
       // console.log("Login Successfull");
         req.session.userID = row[0].teacher_id;
-        req.session.userType = 'Teacher';
+        req.session.userType = 'teacher';
       res.send(
         `Login Successful, Teacher with ID ${row[0].teacher_id}. Stored in session as ${req.session.userID}`
       );
@@ -62,9 +60,7 @@ const loginTeacher = async (req, res) => {
     }
   } catch (error) {
     // console.log(`Error creating the user. ${JSON.stringify(error?.message)}`);
-    res
-      .status(400)
-      .send(`Error logging in to the user. ${JSON.stringify(error?.message)}`);
+    res.status(400).send("Login Failed");
   }
 };
 
