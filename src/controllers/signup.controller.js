@@ -16,7 +16,7 @@ const teachSignup = async (req, res) => {
       );
         const userID = result[0].insertId;
         req.session.userID = userID;
-        req.session.userType = "Teacher";
+        req.session.userType = "teacher";
       // console.log(`Signed up teacher with id of ${userID}`);
       res.send(`Signed up teacher with id of ${userID}`);
     } catch (error) {
@@ -46,7 +46,7 @@ const studentSignup = async (req, res) => {
       // console.log(result);
         const userID = result[0].insertId;
         req.session.userID = userID;
-        req.session.userType = "Student";
+        req.session.userType = "student";
       // console.log(`Signed up student with id of ${userID}`);
       res.send(`Signed up student with id of ${userID}`);
     } catch (error) {
