@@ -21,7 +21,7 @@ const loginStudent = async (req, res) => {
         req.session.userID = row[0].student_id;
         req.session.userType = "student";
       res.send(
-        `Login Successful, Student with ID ${row[0].student_id}. Stored in session as ${req.session.userID}`
+        `${row[0].student_id}`
       );
     } else {
       // console.log("Login Failed");
@@ -52,7 +52,7 @@ const loginTeacher = async (req, res) => {
         req.session.userID = row[0].teacher_id;
         req.session.userType = 'teacher';
       res.send(
-        `Login Successful, Teacher with ID ${row[0].teacher_id}. Stored in session as ${req.session.userID}`
+        `${row[0].teacher_id}`
       );
     } else {
       // console.log("Login Failed");

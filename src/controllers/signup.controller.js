@@ -18,7 +18,7 @@ const teachSignup = async (req, res) => {
         req.session.userID = userID;
         req.session.userType = "teacher";
       // console.log(`Signed up teacher with id of ${userID}`);
-      res.send(`Signed up teacher with id of ${userID}`);
+      res.send(`${userID}`);
     } catch (error) {
       // console.log(`Error creating the user. ${JSON.stringify(error?.message)}`);
       res.status(400).send(`${JSON.stringify(error?.message)}`);
@@ -46,7 +46,7 @@ const studentSignup = async (req, res) => {
         req.session.userID = userID;
         req.session.userType = "student";
       // console.log(`Signed up student with id of ${userID}`);
-      res.send(`Signed up student with id of ${userID}`);
+      res.send(`${userID}`);
     } catch (error) {
       // console.log(`Error creating the user. ${JSON.stringify(error?.message)}`);
       res
