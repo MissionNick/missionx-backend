@@ -1,0 +1,8 @@
+MYSQL_CON_LIMIT = '10'
+MYSQL_Q_LIMIT ='0'
+MYSQL_HOST = 'localhost'
+MYSQL_USER = 'root'
+MYSQL_PASS = 'password'
+MYSQL_DATABASE = 'missionx'
+PROJECT_LIST_PER_PAGE = 5
+FILESTACK_API_KEY = 'your key'
