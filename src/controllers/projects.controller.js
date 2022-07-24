@@ -5,12 +5,13 @@ const helper = require('../utils/helper');
 
 
 const getStudentProjects = async (req, res) => {
-    const { student_id } = req.body;
-    console.log('Received a GET request to api/projects/student for student_id ', student_id);
+    const { id } = req.body;
+    console.log('Received a GET request to api/projects/student for student_id ', id);
+    console.log('Request body',req.body)
     
     try {
         const [rows] = await connection.query
-            (`SELECT * FROM student_projects_filter_vw WHERE student_id = ${student_id}`);
+            (`SELECT * FROM student_projects_filter_vw WHERE student_id = ${id}`);
             
         console.log(rows[0], new Date().toISOString());
         res.send(rows);
