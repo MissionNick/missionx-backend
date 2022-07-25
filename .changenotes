@@ -1,0 +1,17 @@
+Project
+
+Refactoring
+- Filters  
+         FilterGroupRad - Radio 
+         FilterGroupChk - Checkbox
+         FilterGroupBtn - Button 
+         Filter State manager - Filter Value = DB field.
+
+- ButtonGroup - Split into buttons and ButtonGroup.
+- PageOption  - Now PageProjects => Paging component 
+- useAxios Hook for DB fetch.
+- Finish Filters and refactor state hooks, callbacks Partial implemented.
+- LogIt function.  .env prop to enable.- To do replace with winston
+
+
+  

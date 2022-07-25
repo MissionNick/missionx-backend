@@ -1,3 +1,8 @@
+/* Nick
+Original Implementation before express-sessions.  
+Refactor - Change body / generalise params student_id to id.
+*/
+
 const express = require('express');
 const app = express();
 const connection = require('../db/db')
