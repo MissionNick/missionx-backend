@@ -1,5 +1,5 @@
 const connection = require("../db/db");
-
+    //Authenticate gets user pic and name to show in navbar
 const authenticate = async (req, res) => {
     try {
         if (req.session.userID) {
@@ -31,6 +31,8 @@ const authenticate = async (req, res) => {
 };
 
 const checkLogIn = async (req, res) => {
+    /*Check if user has logged in before and not logged out
+(for keeping user signed in if they leave page)*/
     try {
         if (req.session.userID) {
             res.send(true);

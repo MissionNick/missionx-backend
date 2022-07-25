@@ -1,6 +1,9 @@
 const connection = require("../db/db");
 const bcrypt = require("bcrypt");
 
+//signup routes for student and teacher
+//Also works as login, so if user signs up they are also immediately logged in
+
 const teachSignup = async (req, res) => {
   const { name, email, password, confirm } = req.body;
   if (password === confirm) {
@@ -14,9 +17,10 @@ const teachSignup = async (req, res) => {
           return result;
         }
       );
-        const userID = result[0].insertId;
-        req.session.userID = userID;
-        req.session.userType = "teacher";
+      const userID = result[0].insertId; //Gets id of created user
+      //Store relevant info in session
+      req.session.userID = userID;
+      req.session.userType = "teacher";
       // console.log(`Signed up teacher with id of ${userID}`);
       res.send(`${userID}`);
     } catch (error) {
@@ -42,9 +46,10 @@ const studentSignup = async (req, res) => {
         }
       );
       // console.log(result);
-        const userID = result[0].insertId;
-        req.session.userID = userID;
-        req.session.userType = "student";
+      const userID = result[0].insertId; //Gets id of created user
+      //Store relevant info in session
+      req.session.userID = userID;
+      req.session.userType = "student";
       // console.log(`Signed up student with id of ${userID}`);
       res.send(`${userID}`);
     } catch (error) {
