@@ -1,6 +1,8 @@
 const connection = require("../db/db");
 const bcrypt = require("bcrypt");
 
+//Login controllers for student and teacher
+
 const loginStudent = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -17,7 +19,7 @@ const loginStudent = async (req, res) => {
     // console.log(row[0].password);
     const check = bcrypt.compareSync(password, row[0].password);
     if (check) {
-      // console.log("Login Successfull");
+      // Store needed information into the session
         req.session.userID = row[0].student_id;
         req.session.userType = "student";
       res.send(
@@ -48,7 +50,7 @@ const loginTeacher = async (req, res) => {
     }
     const check = bcrypt.compareSync(password, row[0].password);
     if (check) {
-      // console.log("Login Successfull");
+      // Store needed information into the session
         req.session.userID = row[0].teacher_id;
         req.session.userType = 'teacher';
       res.send(
