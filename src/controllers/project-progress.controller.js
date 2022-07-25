@@ -1,5 +1,6 @@
 const connection = require("../db/db");
 
+// controller to select all the informaiton from the progress_history and student tables that matches the logged in teacher ID
 const getCompletedProgress = async (req, res) => {
   try {
     console.log(`userID: ${req.session.userID}`);

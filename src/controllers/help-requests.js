@@ -1,5 +1,6 @@
 const connection = require("../db/db");
 
+// controller to select all the informaiton from the help_request and studnet tables that match with the correct user ID
 const getAllRequests = async (req, res) => {
   try {
     console.log(`userID: ${req.session.userID}`);
@@ -27,7 +28,7 @@ WHERE
     res.send("You' got an error ! " + error.code);
   }
 };
-
+// controller to update the help_request table, done is set to 1 when the request id matches
 const updatePostRequest = async (req, res) => {
   const { request_id } = req.body;
 

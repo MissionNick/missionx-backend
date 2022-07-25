@@ -1,5 +1,6 @@
 const connection = require("../db/db");
 
+// controller to select all the informaiton from the student table that matches the logged in teacher ID
 const getAllProfiles = async (req, res) => {
   console.log(`Received a GET request to api/students/ for student profiles`);
   try {
@@ -15,6 +16,7 @@ const getAllProfiles = async (req, res) => {
   }
 };
 
+// controller to select all the informaiton from the progress_history and student tables that matches the logged in teacher ID
 const getAllProgress = async (req, res) => {
   try {
     const connect = await connection.getConnection();
