@@ -30,12 +30,12 @@ app.use(express.json());
 
 //Session Initialisation
 
-const sessionStore = new MySQLStore({}, connection);
+const sessionStore = new MySQLStore({}, connection); //Uses database connection to store the session info
 app.use(
   session({
     name: "MissionX",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: sessionStore,
     secret: process.env.SESSION_SECRET,
     cookie: {
